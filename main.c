@@ -8,7 +8,7 @@
 
 // Functions to set variables
 int settemp = 27, mode = 2, smart = 1;
-int people = 21, roomtemp = 55;
+int people = 21, roomtemp = 43;
 
 void setAir(int choose)
 {
@@ -25,7 +25,6 @@ void setAir(int choose)
         {
             printf("Please input your desired temperature: ");
             scanf("%d", &settemp);
-            fflush(stdin);
         }
         break;
 
@@ -34,7 +33,6 @@ void setAir(int choose)
         printf("Please set the mode for Air conditioner.\n");
         printf("[1]Off \n[2]Eco \n[3]Cool \n");
         scanf("%d", &mode);
-        fflush(stdin);
         break;
 
     case 3:
@@ -42,7 +40,6 @@ void setAir(int choose)
         printf("Please set the state of SMART air conditioner.\n");
         printf("[1]On \n[2]Off \n");
         scanf("%d", &smart);
-        fflush(stdin);
         break;
 
     case 4:
@@ -87,15 +84,15 @@ void showDashboard()
         printf("║   ╔═══════╗    ║    ╔═════════╗   ║                ║\n");
         if (mode == 1)
         {
-        printf("║   ║       ║    ║    ║         ║   ║    %s   ║\n", mOff);
+            printf("║   ║       ║    ║    ║         ║   ║    %s   ║\n", mOff);
         }
         else if (mode == 2)
         {
-        printf("║   ║       ║    ║    ║         ║   ║    %s   ║\n", mEco);
+            printf("║   ║       ║    ║    ║         ║   ║    %s   ║\n", mEco);
         }
         else
         {
-        printf("║   ║       ║    ║    ║         ║   ║   %s   ║\n", mCool);
+            printf("║   ║       ║    ║    ║         ║   ║   %s   ║\n", mCool);
         }
         printf("║   ║   %d  ║    ║    ║   %d    ║   ║                ║\n", roomtemp, settemp);
         printf("║   ╚═══════╝    ║    ╚═════════╝   ║                ║\n");
@@ -170,6 +167,10 @@ void runSimulation()
                 {
                     roomtemp--;
                 }
+                else if (roomtemp < settemp + 2)
+                {
+                    roomtemp++;
+                }
                 else
                 {
                     break;
@@ -194,6 +195,11 @@ void runSimulation()
         }
         showDashboard();
     } while (1);
+    printf("The air conditioner has reached it's set temperature. Press any key to continue.");
+    char str[20];
+    // Remove the newline that fgets will consume
+    scanf("%*c");
+    fgets(str, sizeof(str), stdin);
     return;
 }
 
@@ -204,10 +210,15 @@ void main()
     do
     {
         system("cls");
+        printf("   _____                      __  ___    _\n");
+        printf("  / ___/____ ___  ____ ______/ /_/   |  (_)____\n");
+        printf("  \\__ \\/ __ `__ \\/ __ `/ ___/ __/ /| | / / ___/\n");
+        printf(" ___/ / / / / / / /_/ / /  / /_/ ___ |/ / /\n");
+        printf("/____/_/ /_/ /_/\\__,_/_/   \\__/_/  |_/_/_/\n\n");
+        printf("SmartAir | Smart Air, Cool Planet 🌎 \n\n");
         printf("What would you like to do?\n");
         printf("[1] Control Air conditioner \n[2] Set Environment \n[3] Run Simulation & View Dashboard\n");
         scanf("%d", &like);
-        fflush(stdin);
         switch (like)
         {
         case 1:
@@ -218,7 +229,6 @@ void main()
                 printf("What do you want to control regarding air conditioner?\n");
                 printf("[1]Set temperature \n[2]Set mode \n[3]Set SMART \n%s[4]Exit%s\n", RED, RESET);
                 scanf("%d", &choose);
-                fflush(stdin);
                 if (choose == 4)
                 {
                     break;
@@ -235,7 +245,6 @@ void main()
                 printf("What type of environment do you want to change?\n");
                 printf("[1]Number of People \n[2]Room Temperature \n%s[3]Exit%s\n", RED, RESET);
                 scanf("%d", &enset);
-                fflush(stdin);
                 if (enset == 3)
                     break;
                 setEnvironment(enset);

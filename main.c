@@ -5,7 +5,7 @@
 #include <windows.h>
 // Functions to set variables
 int settemp = 27, mode = 2, smart = 1;
-int people = 1, roomtemp = 55;
+int people = 21, roomtemp = 55;
 
 void setAir(choose)
 {
@@ -50,11 +50,20 @@ void showDashboard()
 {
     char mOff[100] = "🔴 Off 🔴";
     char mEco[100] = "🍃 Eco 🍃";
-    char mCool[100] = "❄️  Cool ❄️";
+    char mCool[100] = "❄️ Cool ❄️";
     char emoSmart[100] = "🔴";
     char pp[100] = "🙎";
 
     int loopCount = 0;
+
+    if (smart == 1)
+    {
+        strcpy(emoSmart, "🟢");
+    }
+    else
+    {
+        strcpy(emoSmart, "🔴");
+    }
 
     char fanFrames[4][10] = {
         "|",
@@ -80,7 +89,7 @@ void showDashboard()
         }
         else
         {
-            printf("|   |        |   |    |         |   |    %s   |\n", mCool);
+            printf("|   |        |   |    |         |   |   %s   |\n", mCool);
         }
         printf("|   |   %d   |   |    |   %d    |   |                |\n", roomtemp, settemp);
         printf("|   |________|   |    |_________|   |                |\n");
@@ -89,27 +98,17 @@ void showDashboard()
         printf("|                |                  |                |\n");
         printf("|                |                  |                |\n");
 
-        printf("|      fan %s     |      Smart %s    |     %s = %d     |\n", fanFrames[fanIndex], emoSmart, pp, people);
+        printf("|      fan %s     |      Smart %s    |     %s = %2d    |\n", fanFrames[fanIndex], emoSmart, pp, people);
         printf("|                |                  |                |\n");
         printf("|________________|__________________|________________|\n");
         if (++loopCount == 4)
         {
-
-            if (smart = 1)
-            {
-                strcpy(emoSmart, "🟢");
-            }
-            else
-            {
-                strcpy(emoSmart, "🔴");
-            }
-
             loopCount = 0;
         }
 
         fanIndex = (fanIndex + 1) % 4;
 
-        sleep(1);
+        usleep(500000);
     }
 }
 
@@ -138,9 +137,9 @@ void setEnvironment(enset)
 
 void runSimulation()
 {
+    showDashboard();
     do
     {
-        showDashboard();
         // If not OFF
         if (mode != 1)
         {
@@ -186,6 +185,7 @@ void runSimulation()
         {
             break;
         }
+        showDashboard();
     } while (1);
     return;
 }

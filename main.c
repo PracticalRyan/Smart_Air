@@ -17,6 +17,6 @@ void runSimulation()
 
 void main()
 {
-    printf("What would you like to do?");
+    printf("What would you like to do?\n");
     printf("[C] Control Airconditioner [E] Set Environment [R] Run Simulation & View Dashboard");
 }

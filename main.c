@@ -10,7 +10,7 @@ int people = 21, roomtemp = 55;
 void setAir(choose)
 {
     int airoff;
-
+    system("cls");
     switch (choose)
     {
     case 1:
@@ -114,6 +114,7 @@ void showDashboard()
 
 void setEnvironment(enset)
 {
+    system("cls");
     switch (enset)
     {
     case 1:
@@ -193,21 +194,20 @@ void runSimulation()
 void main()
 {
     SetConsoleOutputCP(CP_UTF8);
-
     int like, choose, enset;
     do
     {
-
+        system("cls");
         printf("What would you like to do?\n");
         printf("[1] Control Air conditioner \n[2] Set Environment \n[3] Run Simulation & View Dashboard\n");
         scanf("%d", &like);
         fflush(stdin);
-
         switch (like)
         {
         case 1:
             do
             {
+                system("cls");
                 printf("=== Control Air Conditioner ===\n");
                 printf("What do you want to control regarding airconditioner?\n");
                 printf("[1]Set temperature \n[2]Set mode \n[3]Set SMART \n[4]Exit\n");
@@ -224,6 +224,7 @@ void main()
         case 2:
             do
             {
+                system("cls");
                 printf("=== Set Environment ===\n");
                 printf("What type of environment do you want to change?\n");
                 printf("[1]Number of People \n[2]Room Temperature \n[3]Exit\n");

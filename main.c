@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <Windows.h>
+#include <windows.h>
 // Functions to set variables
 int settemp = 27, mode = 2, smart = 1;
 int people = 1, roomtemp = 55;
@@ -149,16 +149,16 @@ void runSimulation()
                 if (people < 5)
                 {
                     // Eco
-                    mode == 2;
+                    mode = 2;
                 }
                 else
                 {
                     // Cool
-                    mode == 3;
+                    mode = 3;
                 }
             }
             // If ECO mode
-            if (mode == 1)
+            if (mode == 2)
             {
                 if (roomtemp > settemp + 2)
                 {
@@ -170,7 +170,7 @@ void runSimulation()
                 }
             }
             // If COOL mode
-            else if (mode = 2)
+            else if (mode = 3)
             {
                 if (roomtemp > settemp)
                 {

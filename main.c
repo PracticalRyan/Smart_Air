@@ -169,7 +169,7 @@ void runSimulation()
                 }
             }
             // If COOL mode
-            else if (mode = 3)
+            else if (mode == 3)
             {
                 if (roomtemp > settemp)
                 {

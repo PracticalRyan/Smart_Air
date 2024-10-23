@@ -9,8 +9,9 @@ void setAir(choose)
     switch (choose)
     {
     case 1:
+        printf("= Set Temperature =\n");
         if (mode == 1)
-            printf("\nPlease turn on the Airconditioner first.\n");
+            printf("Please turn on the Airconditioner first.\n");
         else
         {
             printf("Please input your desired temperature: ");
@@ -20,6 +21,7 @@ void setAir(choose)
         break;
 
     case 2:
+        printf("= Set Mode =\n");
         printf("Please set the mode for Airconditioner.\n");
         printf("[1]Off \n[2]Eco \n[3]Cool \n");
         scanf("%d", &mode);
@@ -27,6 +29,7 @@ void setAir(choose)
         break;
 
     case 3:
+        printf("= Set SMART =\n");
         printf("Please set the state of SMART airconditioner.\n");
         printf("[1]On \n[2]Off \n");
         scanf("%d", &smart);
@@ -44,17 +47,19 @@ void setEnvironment(enset)
     switch (enset)
     {
     case 1:
+        printf("= Number of People =\n");
         printf("Please put in the number of people here: ");
-        scanf(people);
+        scanf("%d", &people);
         break;
 
     case 2:
+        printf("= Room Temperature =\n");
         printf("Please put in the room temperature: ");
-        scanf(roomtemp);
+        scanf("%d", &roomtemp);
         break;
 
     case 3:
-        break;
+        return;
     }
 }
 
@@ -80,6 +85,7 @@ void main()
         case 1:
             do
             {
+                printf("=== Control Air Conditioner ===\n");
                 printf("What do you want to control regarding airconditioner?\n");
                 printf("[1]Set temperature \n[2]Set mode \n[3]Set SMART \n[4]Exit\n");
                 scanf("%d", &choose);
@@ -93,11 +99,15 @@ void main()
             break;
 
         case 2:
+            do{
+            printf("=== Set Environment ===\n");
             printf("What type of environment do you want to change?\n");
             printf("[1]Number of People \n[2]Room Temperature \n[3]Exit\n");
-            scanf(enset);
+            scanf("%d", &enset);
             fflush(stdin);
+            if(enset==3) break;
             setEnvironment(enset);
+            }while(1);
             break;
         }
     } while (1);

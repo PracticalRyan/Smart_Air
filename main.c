@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <string.h>
+#include <Windows.h>
 // Functions to set variables
-int settemp, mode, smart;
+int settemp = 27, mode = 2, smart = 1;
 void setAir(choose)
 {
     int airoff;
@@ -41,7 +42,12 @@ void setAir(choose)
     }
 }
 
-int people = 0, roomtemp = 0;
+void showDashboard()
+{
+    printf("Dashboard");
+}
+
+int people = 1, roomtemp = 55;
 void setEnvironment(enset)
 {
     switch (enset)
@@ -67,6 +73,55 @@ void setEnvironment(enset)
 
 void runSimulation()
 {
+    do
+    {
+        // If not OFF
+        if (mode != 1)
+        {
+            if (smart == 1)
+            {
+                if (people < 5)
+                {
+                    // Eco
+                    mode == 2;
+                }
+                else
+                {
+                    // Cool
+                    mode == 3;
+                }
+            }
+            // If ECO mode
+            if (mode == 1)
+            {
+                if (roomtemp > settemp + 2)
+                {
+                    roomtemp--;
+                }
+                else
+                {
+                    break;
+                }
+            }
+            // If COOL mode
+            else if (mode = 2)
+            {
+                if (roomtemp > settemp)
+                {
+                    roomtemp -= 2;
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+        else
+        {
+            break;
+        }
+    } while (1);
+    return;
 }
 
 void main()
@@ -99,16 +154,22 @@ void main()
             break;
 
         case 2:
-            do{
-            printf("=== Set Environment ===\n");
-            printf("What type of environment do you want to change?\n");
-            printf("[1]Number of People \n[2]Room Temperature \n[3]Exit\n");
-            scanf("%d", &enset);
-            fflush(stdin);
-            if(enset==3) break;
-            setEnvironment(enset);
-            }while(1);
+            do
+            {
+                printf("=== Set Environment ===\n");
+                printf("What type of environment do you want to change?\n");
+                printf("[1]Number of People \n[2]Room Temperature \n[3]Exit\n");
+                scanf("%d", &enset);
+                fflush(stdin);
+                if (enset == 3)
+                    break;
+                setEnvironment(enset);
+            } while (1);
+            break;
+        case 3:
+            runSimulation();
             break;
         }
+
     } while (1);
 }

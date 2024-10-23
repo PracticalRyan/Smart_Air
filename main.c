@@ -1,8 +1,12 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
+#include <unistd.h>
 #include <Windows.h>
 // Functions to set variables
 int settemp = 27, mode = 2, smart = 1;
+int people = 1, roomtemp = 55;
+
 void setAir(choose)
 {
     int airoff;
@@ -44,10 +48,71 @@ void setAir(choose)
 
 void showDashboard()
 {
-    printf("Dashboard");
+    char mOff[100] = "🔴 Off 🔴";
+    char mEco[100] = "🍃 Eco 🍃";
+    char mCool[100] = "❄️  Cool ❄️";
+    char emoSmart[100] = "🔴";
+    char pp[100] = "🙎";
+
+    int loopCount = 0;
+
+    char fanFrames[4][10] = {
+        "|",
+        "/",
+        "-",
+        "\\"};
+    int fanIndex = 0;
+
+    for (int i = 1; i < 4; i++)
+    {
+        system("cls");
+
+        printf(" ____________________________________________________\n");
+        printf("|     Temp       |     Set Temp     |      Mode      |\n");
+        printf("|    ________    |     _________    |                |\n");
+        if (mode == 1)
+        {
+            printf("|   |        |   |    |         |   |    %s   |\n", mOff);
+        }
+        else if (mode == 2)
+        {
+            printf("|   |        |   |    |         |   |    %s   |\n", mEco);
+        }
+        else
+        {
+            printf("|   |        |   |    |         |   |    %s   |\n", mCool);
+        }
+        printf("|   |   %d   |   |    |   %d    |   |                |\n", roomtemp, settemp);
+        printf("|   |________|   |    |_________|   |                |\n");
+        printf("|                |                  |                |\n");
+        printf("|________________|__________________|________________|\n");
+        printf("|                |                  |                |\n");
+        printf("|                |                  |                |\n");
+
+        printf("|      fan %s     |      Smart %s    |     %s = %d     |\n", fanFrames[fanIndex], emoSmart, pp, people);
+        printf("|                |                  |                |\n");
+        printf("|________________|__________________|________________|\n");
+        if (++loopCount == 4)
+        {
+
+            if (smart = 1)
+            {
+                strcpy(emoSmart, "🟢");
+            }
+            else
+            {
+                strcpy(emoSmart, "🔴");
+            }
+
+            loopCount = 0;
+        }
+
+        fanIndex = (fanIndex + 1) % 4;
+
+        sleep(1);
+    }
 }
 
-int people = 1, roomtemp = 55;
 void setEnvironment(enset)
 {
     switch (enset)
@@ -75,6 +140,7 @@ void runSimulation()
 {
     do
     {
+        showDashboard();
         // If not OFF
         if (mode != 1)
         {
@@ -126,6 +192,8 @@ void runSimulation()
 
 void main()
 {
+    SetConsoleOutputCP(CP_UTF8);
+
     int like, choose, enset;
     do
     {

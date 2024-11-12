@@ -12,7 +12,6 @@ int people = 21, roomtemp = 43;
 
 void setAir(int choose)
 {
-    int airoff;
     system("cls");
     printf("=== Control Air Conditioner ===\n");
     switch (choose)
@@ -94,7 +93,7 @@ void showDashboard()
         {
             printf("║   ║       ║    ║    ║         ║   ║   %s   ║\n", mCool);
         }
-        printf("║   ║   %d  ║    ║    ║   %d    ║   ║                ║\n", roomtemp, settemp);
+        printf("║   ║  %d   ║    ║    ║   %d    ║   ║                ║\n", roomtemp, settemp);
         printf("║   ╚═══════╝    ║    ╚═════════╝   ║                ║\n");
         printf("║                ║                  ║                ║\n");
         printf("╠════════════════╬══════════════════╬════════════════╣\n");
@@ -179,9 +178,17 @@ void runSimulation()
             // If COOL mode
             else if (mode == 3)
             {
+                // Reduce fan speed if nearly at set temp
                 if (roomtemp > settemp)
                 {
-                    roomtemp -= 2;
+                    if (roomtemp <= settemp + 2)
+                    {
+                        roomtemp--;
+                    }
+                    else
+                    {
+                        roomtemp -= 2;
+                    }
                 }
                 else
                 {

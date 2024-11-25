@@ -10,6 +10,30 @@
 int settemp = 27, mode = 2, smart = 1;
 int people = 21, roomtemp = 43;
 
+FILE *readfile, *writefile;
+
+void readData()
+{
+    readfile = fopen("data.smart", "r");
+    fscanf(readfile, "SetTemp=%d \n", &settemp);
+    fscanf(readfile, "Mode=%d \n", &mode);
+    fscanf(readfile, "Smart=%d \n", &smart);
+    fscanf(readfile, "People=%d \n", &people);
+    fscanf(readfile, "RoomTemp=%d \n", &roomtemp);
+    fclose(readfile);
+}
+
+void saveData()
+{
+    writefile = fopen("data.smart", "w");
+    fprintf(writefile, "SetTemp=%d \n", settemp);
+    fprintf(writefile, "Mode=%d \n", mode);
+    fprintf(writefile, "Smart=%d \n", smart);
+    fprintf(writefile, "People=%d \n", people);
+    fprintf(writefile, "RoomTemp=%d \n", roomtemp);
+    fclose(writefile);
+}
+
 void setAir(int choose)
 {
     system("cls");
@@ -44,6 +68,7 @@ void setAir(int choose)
     case 4:
         return;
     }
+    saveData();
 }
 
 void showDashboard()
@@ -134,9 +159,8 @@ void setEnvironment(int enset)
     case 3:
         return;
     }
+    saveData();
 }
-
-// Functions to run simulation
 
 void runSimulation()
 {
@@ -200,6 +224,7 @@ void runSimulation()
         {
             break;
         }
+        saveData();
         showDashboard();
     } while (1);
     printf("The air conditioner has reached it's set temperature. Press any key to continue.");
@@ -212,8 +237,9 @@ void runSimulation()
 
 void main()
 {
+    readData();
     SetConsoleOutputCP(CP_UTF8);
-    int like, choose, enset;
+    int like, choose, enset, exit = 0;
     do
     {
         system("cls");
@@ -224,7 +250,7 @@ void main()
         printf("/____/_/ /_/ /_/\\__,_/_/   \\__/_/  |_/_/_/\n\n");
         printf("SmartAir | Smart Air, Cool Planet 🌎 \n\n");
         printf("What would you like to do?\n");
-        printf("[1] Control Air conditioner \n[2] Set Environment \n[3] Run Simulation & View Dashboard\n");
+        printf("[1] Control Air conditioner \n[2] Set Environment \n[3] Run Simulation & View Dashboard\n%s[4] Exit%s\n", RED, RESET);
         scanf("%d", &like);
         switch (like)
         {
@@ -260,7 +286,10 @@ void main()
         case 3:
             runSimulation();
             break;
+        case 4:
+            exit = 1;
+            break;
         }
 
-    } while (1);
+    } while (!exit);
 }

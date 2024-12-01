@@ -43,11 +43,20 @@ void setAir(int choose)
     case 1:
         printf("= Set Temperature =\n");
         if (mode == 1)
-            printf("Please turn on the Air conditioner first.\n");
+        {
+            printf("ERROR: Please turn on the Air conditioner first.\n");
+            usleep(1000000);
+        }
         else
         {
+
             printf("Please input your desired temperature: ");
-            scanf("%d", &settemp);
+            do
+            {
+                if (settemp < 18 || settemp > 30)
+                    printf("Invalid input. [18-30]\n");
+                scanf("%d", &settemp);
+            } while (settemp < 18 || settemp > 30);
         }
         break;
 
@@ -55,14 +64,30 @@ void setAir(int choose)
         printf("= Set Mode =\n");
         printf("Please set the mode for Air conditioner.\n");
         printf("[1]Off \n[2]Eco \n[3]Cool \n");
-        scanf("%d", &mode);
+        do
+        {
+            if (mode > 3 || mode < 1)
+            {
+                printf("Invalid input. [1-3]\n");
+            }
+            scanf("%d", &mode);
+        } while (mode > 3 || mode < 1);
+
         break;
 
     case 3:
         printf("= Set SMART =\n");
         printf("Please set the state of SMART air conditioner.\n");
         printf("[1]On \n[2]Off \n");
-        scanf("%d", &smart);
+        do
+        {
+            if (smart > 2 || smart < 1)
+            {
+                printf("Invalid input. [1-2]\n");
+            }
+            scanf("%d", &smart);
+
+        } while (smart > 2 || smart < 1);
         break;
 
     case 4:
@@ -124,7 +149,6 @@ void showDashboard()
         printf("║                ║                  ║                ║\n");
         printf("╠════════════════╬══════════════════╬════════════════╣\n");
         printf("║                ║                  ║                ║\n");
-        printf("║                ║                  ║                ║\n");
         printf("║      Fan %s     ║     SMART %s     ║    %s = %-3d    ║\n", fanFrames[fanIndex], emoSmart, pp, people);
         printf("║                ║                  ║                ║\n");
         printf("╚════════════════╩══════════════════╩════════════════╝\n");
@@ -147,14 +171,28 @@ void setEnvironment(int enset)
     {
     case 1:
         printf("= Number of People =\n");
-        printf("Please put in the number of people here: ");
-        scanf("%d", &people);
+        printf("Please put in the number of people here [1-99]: ");
+        do
+        {
+            if (people > 99 || people < 0)
+            {
+                printf("Invalid input. [1-99]\n");
+            }
+            scanf("%d", &people);
+        } while (people > 99 || people < 0);
         break;
 
     case 2:
-        printf("= Room Temperature =\n");
-        printf("Please put in the room temperature: ");
-        scanf("%d", &roomtemp);
+        do
+        {
+            if (roomtemp > 50 || roomtemp < 20)
+            {
+                printf("Invalid input. [20-50]\n");
+            }
+            printf("= Room Temperature =\n");
+            printf("Please put in the room temperature [20-50]: ");
+            scanf("%d", &roomtemp);
+        } while (roomtemp > 50 || roomtemp < 20);
         break;
 
     case 3:
@@ -311,6 +349,12 @@ void main()
             break;
         case 4:
             exit = 1;
+            break;
+        case 4321:
+            settemp = 27, mode = 2, smart = 1, people = 21, roomtemp = 43;
+            saveData();
+            printf("DEMO MODE SET");
+            usleep(300000);
             break;
         }
 

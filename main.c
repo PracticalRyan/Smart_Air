@@ -105,26 +105,27 @@ void showDashboard()
         printf("║           🌡️  Air Conditioner Dashboard            ║\n");
         printf("╠════════════════╦══════════════════╦════════════════╣\n");
         printf("║  Current Temp  ║     Set Temp     ║      Mode      ║\n");
-        printf("║   ╔═══════╗    ║    ╔═════════╗   ║                ║\n");
+        printf("║   ╔════════╗   ║    ╔════════╗    ║                ║\n");
         if (mode == 1)
         {
-            printf("║   ║       ║    ║    ║         ║   ║    %s   ║\n", mOff);
+            printf("║   ║        ║   ║    ║        ║    ║    %-10s   ║\n", mOff);
         }
         else if (mode == 2)
         {
-            printf("║   ║       ║    ║    ║         ║   ║    %s   ║\n", mEco);
+            printf("║   ║        ║   ║    ║        ║    ║    %-10s   ║\n", mEco);
         }
         else
         {
-            printf("║   ║       ║    ║    ║         ║   ║   %s   ║\n", mCool);
+            printf("║   ║        ║   ║    ║        ║    ║   %-10s   ║\n", mCool);
         }
-        printf("║   ║  %d   ║    ║    ║   %d    ║   ║                ║\n", roomtemp, settemp);
-        printf("║   ╚═══════╝    ║    ╚═════════╝   ║                ║\n");
+        printf("║   ║   %-2d   ║   ║    ║   %-2d   ║    ║                ║\n", roomtemp, settemp);
+        printf("║   ║        ║   ║    ║        ║    ║                ║\n");
+        printf("║   ╚════════╝   ║    ╚════════╝    ║                ║\n");
         printf("║                ║                  ║                ║\n");
         printf("╠════════════════╬══════════════════╬════════════════╣\n");
         printf("║                ║                  ║                ║\n");
         printf("║                ║                  ║                ║\n");
-        printf("║      fan %s     ║      Smart %s    ║     %s = %2d    ║\n", fanFrames[fanIndex], emoSmart, pp, people);
+        printf("║      Fan %s     ║     SMART %s     ║    %s = %-3d    ║\n", fanFrames[fanIndex], emoSmart, pp, people);
         printf("║                ║                  ║                ║\n");
         printf("╚════════════════╩══════════════════╩════════════════╝\n");
         if (++loopCount == 4)
@@ -227,7 +228,7 @@ void runSimulation()
         saveData();
         showDashboard();
     } while (1);
-    printf("The air conditioner has reached it's set temperature. Press any key to continue.");
+    printf("The air conditioner has reached it's set temperature.\nPress any key to continue.");
     char str[20];
     // Remove the newline that fgets will consume
     scanf("%*c");
@@ -235,6 +236,21 @@ void runSimulation()
     return;
 }
 
+char *getMode(int x)
+{
+    switch (x)
+    {
+    case 1:
+        return ("Off 🚫");
+        break;
+    case 2:
+        return ("Eco 🍃");
+        break;
+    case 3:
+        return ("Cool ❄️");
+        break;
+    }
+}
 void main()
 {
     readData();
@@ -259,6 +275,10 @@ void main()
             {
                 system("cls");
                 printf("=== Control Air Conditioner ===\n");
+                printf("╔════════════════╦══════════════════╦════════════════╗\n");
+                printf("║ 1. 🌡️: %-3d     ║ 2. ⚙️: %-9s   ║ 3. 🤖: %-3s     ║\n", settemp, getMode(mode), (smart == 1) ? "On" : "Off");
+                printf("╚════════════════╩══════════════════╩════════════════╝\n");
+
                 printf("What do you want to control regarding air conditioner?\n");
                 printf("[1]Set temperature \n[2]Set mode \n[3]Set SMART \n%s[4]Exit%s\n", RED, RESET);
                 scanf("%d", &choose);
@@ -275,6 +295,9 @@ void main()
             {
                 system("cls");
                 printf("=== Set Environment ===\n");
+                printf("╔══════════════════════════╦═════════════════════════╗\n");
+                printf("║ 1. 🧑:%-3d                ║ 2. 🌡️:%-3d               ║\n", people, roomtemp);
+                printf("╚══════════════════════════╩═════════════════════════╝\n");
                 printf("What type of environment do you want to change?\n");
                 printf("[1]Number of People \n[2]Room Temperature \n%s[3]Exit%s\n", RED, RESET);
                 scanf("%d", &enset);

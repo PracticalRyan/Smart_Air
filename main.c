@@ -34,10 +34,30 @@ void saveData()
     fclose(writefile);
 }
 
+char *getMode(int x)
+{
+    switch (x)
+    {
+    case 1:
+        return ("Off 🚫");
+        break;
+    case 2:
+        return ("Eco 🍃");
+        break;
+    case 3:
+        return ("Cool ❄️");
+        break;
+    }
+}
+
 void setAir(int choose)
 {
     system("cls");
     printf("=== Control Air Conditioner ===\n");
+    printf("╔════════════════╦══════════════════╦════════════════╗\n");
+    printf("║ 1. 🌡️: %-3d     ║ 2. ⚙️: %-9s   ║ 3. 🤖: %-3s     ║\n", settemp, getMode(mode), (smart == 1) ? "On" : "Off");
+    printf("╚════════════════╩══════════════════╩════════════════╝\n");
+
     switch (choose)
     {
     case 1:
@@ -167,6 +187,10 @@ void setEnvironment(int enset)
 {
     system("cls");
     printf("=== Set Environment ===\n");
+    printf("╔══════════════════════════╦═════════════════════════╗\n");
+    printf("║ 1. 🧑:%-3d                ║ 2. 🌡️:%-3d               ║\n", people, roomtemp);
+    printf("╚══════════════════════════╩═════════════════════════╝\n");
+
     switch (enset)
     {
     case 1:
@@ -174,12 +198,12 @@ void setEnvironment(int enset)
         printf("Please put in the number of people here [1-99]: ");
         do
         {
-            if (people > 99 || people < 0)
+            if (people > 20 || people < 0)
             {
-                printf("Invalid input. [1-99]\n");
+                printf("Invalid input. [1-20]\n");
             }
             scanf("%d", &people);
-        } while (people > 99 || people < 0);
+        } while (people > 20 || people < 0);
         break;
 
     case 2:
@@ -203,69 +227,91 @@ void setEnvironment(int enset)
 
 void runSimulation()
 {
+    readData();
     showDashboard();
+    int onStart = 1;
+    int initialMode = mode;
     do
     {
-        // If not OFF
-        if (mode != 1)
+        // If not OFF and on start
+        if (mode == 1 && onStart == 1)
         {
-            if (smart == 1)
+            break;
+        }
+        onStart = 0;
+        // If OFF mode
+        if (mode == 1)
+        {
+            if (settemp > roomtemp)
             {
-                if (people < 5)
-                {
-                    // Eco
-                    mode = 2;
-                }
-                else
-                {
-                    // Cool
-                    mode = 3;
-                }
+                roomtemp++;
             }
-            // If ECO mode
-            if (mode == 2)
+            else
             {
-                if (roomtemp > settemp + 2)
+                mode = initialMode;
+                break;
+            }
+        }
+        else if (smart == 1)
+        {
+            if (people < 5)
+            {
+                // Eco
+                mode = 2;
+            }
+            else
+            {
+                // Cool
+                mode = 3;
+            }
+        }
+        // If ECO mode
+        if (mode == 2)
+        {
+            if (roomtemp > settemp + 2)
+            {
+                roomtemp--;
+            }
+            else if (roomtemp < settemp + 2)
+            {
+                mode = 1;
+            }
+            else
+            {
+                break;
+            }
+        }
+        // If COOL mode
+        else if (mode == 3)
+        {
+            // Reduce fan speed if nearly at set temp
+            if (roomtemp > settemp)
+            {
+                if (roomtemp <= settemp + 2)
                 {
                     roomtemp--;
                 }
-                else if (roomtemp < settemp + 2)
-                {
-                    roomtemp++;
-                }
                 else
                 {
-                    break;
+                    roomtemp -= 2;
                 }
             }
-            // If COOL mode
-            else if (mode == 3)
+            else if (roomtemp < settemp)
             {
-                // Reduce fan speed if nearly at set temp
-                if (roomtemp > settemp)
-                {
-                    if (roomtemp <= settemp + 2)
-                    {
-                        roomtemp--;
-                    }
-                    else
-                    {
-                        roomtemp -= 2;
-                    }
-                }
-                else
-                {
-                    break;
-                }
+                mode = 1;
+                continue;
             }
-        }
-        else
-        {
-            break;
+            else
+            {
+                break;
+            }
         }
         saveData();
         showDashboard();
     } while (1);
+    saveData();
+    showDashboard();
+
     printf("The air conditioner has reached it's set temperature.\nPress any key to continue.");
     char str[20];
     // Remove the newline that fgets will consume
@@ -274,21 +320,6 @@ void runSimulation()
     return;
 }
 
-char *getMode(int x)
-{
-    switch (x)
-    {
-    case 1:
-        return ("Off 🚫");
-        break;
-    case 2:
-        return ("Eco 🍃");
-        break;
-    case 3:
-        return ("Cool ❄️");
-        break;
-    }
-}
 void main()
 {
     readData();

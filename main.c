@@ -195,14 +195,15 @@ void setEnvironment(int enset)
     {
     case 1:
         printf("= Number of People =\n");
-        printf("Please put in the number of people here [1-99]: ");
+        printf("Please put in the number of people here [0-20]: ");
         do
         {
             if (people > 20 || people < 0)
             {
-                printf("Invalid input. [1-20]\n");
+                printf("Invalid input. [0-20]\n");
             }
             scanf("%d", &people);
+            
         } while (people > 20 || people < 0);
         break;
 
